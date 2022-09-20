@@ -1,0 +1,178 @@
+=====================================================================================================================
+Soal 1 Membuat Database:
+MariaDB [(none)]> CREATE DATABASE myshopDB;
+MariaDB [(none)]> USE myshopDB;
+Database changed
+====================================================================================================================
+Soal 2 Membuat Table di Dalam Database:
+MariaDB [myshopDB]> CREATE TABLE users(
+    -> id INT PRIMARY KEY AUTO_INCREMENT,
+    -> name VARCHAR(255),
+    -> email VARCHAR(255),
+    -> password VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0.014 sec)
+
+MariaDB [myshopDB]> CREATE TABLE categories(id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255));
+Query OK, 0 rows affected (0.011 sec)
+
+MariaDB [myshopDB]> CREATE TABLE items( id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), description VARCHAR(255), price INT, stock INT, category_id INT, foreign key (category_id) references categories (id));
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [myshopDB]> show tables;
++--------------------+
+| Tables_in_myshopDB |
++--------------------+
+| categories         |
+| items              |
+| users              |
++--------------------+
+3 rows in set (0.000 sec)
+
+MariaDB [myshopDB]> describe users;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| id       | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name     | varchar(255) | YES  |     | NULL    |                |
+| email    | varchar(255) | YES  |     | NULL    |                |
+| password | varchar(255) | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [myshopDB]> describe items;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(255) | YES  |     | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| price       | int(11)      | YES  |     | NULL    |                |
+| stock       | int(11)      | YES  |     | NULL    |                |
+| category_id | int(11)      | YES  | MUL | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+6 rows in set (0.001 sec)
+
+MariaDB [myshopDB]> describe categories;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(255) | YES  |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+2 rows in set (0.001 sec)
+MariaDB [myshopDB]> describe categories;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(255) | YES  |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+2 rows in set (0.001 sec)
+=====================================================================================================================
+Soal 3 Memasukkan Data pada Table
+
+INPUT DATA USERS KE DATABASE :
+MariaDB [myshopDB]> INSERT INTO users VALUES(NULL, "jhon Doe", "jhon@doe.com", "jhon123");
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [myshopDB]> INSERT INTO users VALUES(NULL, "jane Doe", "jane@doe.com", "jenita123");
+Query OK, 1 row affected (0.004 sec)
+
+
+INPUT DATA CATEGORIES KE DATABASE :
+MariaDB [myshopDB]> INSERT INTO categories VALUES ( NULL, "gadget");
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [myshopDB]> INSERT INTO categories VALUES(NULL, "cloth");
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [myshopDB]> INSERT INTO categories VALUES(NULL, "men");
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [myshopDB]> INSERT INTO categories VALUES(NULL, "women");
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [myshopDB]> INSERT INTO categories VALUES(NULL, "branded");
+Query OK, 1 row affected (0.004 sec)
+
+
+INPUT DATA ITEMS KE DATABASE;
+MariaDB [myshopDB]> INSERT INTO items VALUES(NULL, "sumsang b50", "hp keren dari merek sumsang", 4000000, 100,1);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [myshopDB]> INSERT INTO items VALUES(NULL, "uniklooh", "baju keren dari brand ternama", 500000, 50,2);
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [myshopDB]> INSERT INTO items VALUES(NULL, "IMHO Watch", "jam tangan anak yang jujur
+banget", 2000000,
+Query OK, 1 row affected (0.004 sec)
+======================================================================================================================
+Soal 4 Mengambil Data dari Database
+a. Mengambil data users
+MariaDB [myshopDB]> SELECT name, email FROM users;
++----------+--------------+
+| name     | email        |
++----------+--------------+
+| jhon Doe | jhon@doe.com |
+| jane Doe | jane@doe.com |
++----------+--------------+
+2 rows in set (0.000 sec)
+
+b. Mengambil data items
+MariaDB [myshopDB]> SELECT * FROM items WHERE price > 1000000;
++----+-------------+-----------------------------------+---------+-------+-------------+
+| id | name        | description                       | price   | stock | category_id |
++----+-------------+-----------------------------------+---------+-------+-------------+
+|  1 | sumsang b50 | hp keren dari merek sumsang       | 4000000 |   100 |           1 |
+|  3 | IMHO Watch  | jam tangan anak yang jujur banget | 2000000 |    10 |           1 |
++----+-------------+-----------------------------------+---------+-------+-------------
+
+
+MariaDB [myshopDB]> SELECT * FROM items WHERE name LIKE 'u%';
++----+----------+-------------------------------+--------+-------+-------------+
+| id | name     | description                   | price  | stock | category_id |
++----+----------+-------------------------------+--------+-------+-------------+
+|  2 | uniklooh | baju keren dari brand ternama | 500000 |    50 |           2 |
++----+----------+-------------------------------+--------+-------+-------------+
+1 row in set (0.000 sec)
+
+
+MariaDB [myshopDB]> SELECT * FROM items WHERE name LIKE '%h';
++----+------------+-----------------------------------+---------+-------+-------------+
+| id | name       | description                       | price   | stock | category_id |
++----+------------+-----------------------------------+---------+-------+-------------+
+|  2 | uniklooh   | baju keren dari brand ternama     |  500000 |    50 |           2 |
+|  3 | IMHO Watch | jam tangan anak yang jujur banget | 2000000 |    10 |           1 |
++----+------------+-----------------------------------+---------+-------+-------------+
+2 rows in set (0.000 sec)
+
+MariaDB [myshopDB]> SELECT items.name, items.description, items.price, items.stock, items.category_id, categories.name FRO
+M items INNE
++-------------+-----------------------------------+---------+-------+-------------+--------+
+| name        | description                       | price   | stock | category_id | name   |
++-------------+-----------------------------------+---------+-------+-------------+--------+
+| sumsang b50 | hp keren dari merek sumsang       | 4000000 |   100 |           1 | gadget |
+| uniklooh    | baju keren dari brand ternama     |  500000 |    50 |           2 | cloth  |
+| IMHO Watch  | jam tangan anak yang jujur banget | 2000000 |    10 |           1 | gadget |
++-------------+-----------------------------------+---------+-------+-------------+--------+
+3 rows in set (0.000 sec)
+
+
+
+Soal 5 Mengubah Data dari Database
+MariaDB [myshopDB]> UPDATE items SET price = 2500000 WHERE name = "sumsang b50";
+Query OK, 1 row affected (0.004 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [myshopDB]> SELECT * FROM items;
++----+-------------+-----------------------------------+---------+-------+-------------+
+| id | name        | description                       | price   | stock | category_id |
++----+-------------+-----------------------------------+---------+-------+-------------+
+|  1 | sumsang b50 | hp keren dari merek sumsang       | 2500000 |   100 |           1 |
+|  2 | uniklooh    | baju keren dari brand ternama     |  500000 |    50 |           2 |
+|  3 | IMHO Watch  | jam tangan anak yang jujur banget | 2000000 |    10 |           1 |
++----+-------------+-----------------------------------+---------+-------+-------------+
+3 rows in set (0.000 sec)
+
+MariaDB [myshopDB]> 
